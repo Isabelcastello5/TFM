@@ -173,6 +173,8 @@ for offset_mm in offsets_mm:
     half = crop_size // 2
     crop = img[y - half:y + half, x - half:x + half]
     cv2.imwrite(os.path.join(output_folder, f"crop_{slice_id}.bmp"), crop)
+
+    densitat_relativa = np.mean(crop)
     fd_list, r2_list = [], []
     for rep in range(5):
         res = compute_fd(crop, pixel_size_mm, start_manual=3, end_manual=26)
@@ -217,6 +219,7 @@ for offset_mm in offsets_mm:
             'FD_promig': np.mean(fd_list),
             'slope': slope,
             'R2_promig': np.mean(r2_list)
+            'Intensitat_mitjana': densitat_relativa
         })
         print(f"Slice {slice_id}: FD = {np.mean(fd_list):.4f}, R² = {np.mean(r2_list):.4f}")
 
